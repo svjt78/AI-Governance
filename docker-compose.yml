@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: insuregov-backend
+    ports:
+      - "8006:8006"
+    volumes:
+      - ./backend/app:/app/app  # Hot reload for code
+      - ./backend/data:/app/data  # Persist data
+      - ./backend/artifacts:/app/artifacts  # Persist artifacts
+      - ./.env:/app/.env  # Single .env file
+    environment:
+      - GOV_APP_DATA_DIR=/app/data
+      - GOV_APP_ARTIFACTS_DIR=/app/artifacts
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: insuregov-frontend
+    ports:
+      - "3006:3006"
+    volumes:
+      - ./frontend/src:/app/src  # Hot reload for code
+      - ./frontend/public:/app/public
+      - ./.env:/app/.env  # Single .env file
+      - /app/node_modules  # Prevent overwriting node_modules
+      - /app/.next  # Prevent overwriting .next
+    env_file:
+      - .env
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8006/api/v1
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    name: insuregov-network
