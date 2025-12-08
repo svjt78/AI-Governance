@@ -78,3 +78,4 @@ htmlcov/
 CLAUDE.md
 AGENTS.md
 .claude/
+claude-code-fullstack-build-prompt.md
