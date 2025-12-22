@@ -171,7 +171,7 @@ InsureGov-AI/
 │   │   └── main.py                   # FastAPI application entry
 │   ├── data/                         # Persistent data files
 │   │   ├── models.json               # Model registry
-│   │   ├── control_catalog.json      # 15 NAIC controls
+│   │   ├── controls.json             # 15 NAIC controls
 │   │   ├── control_evaluations.ndjson
 │   │   ├── bias.ndjson
 │   │   ├── drift.ndjson
@@ -181,7 +181,8 @@ InsureGov-AI/
 │   │   ├── lineage.ndjson
 │   │   ├── governance_philosophy.ndjson
 │   │   ├── evidence_packs.ndjson
-│   │   └── audit_log.ndjson
+│   │   ├── audit_log.ndjson
+│   │   └── temp/                     # Temporary files (philosophy downloads, etc.)
 │   ├── artifacts/                    # Generated evidence packs
 │   │   └── evidence_packs/           # ZIP files for download
 │   ├── scripts/
@@ -295,6 +296,7 @@ The seed data script (`scripts/seed_data.py`) generates realistic insurance AI m
 
 15 insurance-specific controls including:
 
+**Core NAIC Controls:**
 1. **NAIC-AI-01**: Unfair Discrimination Prevention & Protected Class Analysis
 2. **NAIC-AI-02**: External Data Governance (Third-party data sources)
 3. **NAIC-AI-03**: Consumer Transparency & Notification Requirements
@@ -305,11 +307,17 @@ The seed data script (`scripts/seed_data.py`) generates realistic insurance AI m
 8. **NAIC-AI-08**: Third-party Vendor Risk Management
 9. **NAIC-AI-09**: Adverse Action & Explainability Procedures
 10. **NAIC-AI-10**: Consumer Privacy & Data Protection
-11. **NAIC-AI-11**: RAG Hallucination Prevention (LLM-specific)
-12. **NAIC-AI-12**: Coverage Accuracy Validation (Insurance copilots)
-13. **NAIC-AI-13**: Proxy Discrimination Testing
-14. **NAIC-AI-14**: Disparate Impact Analysis
-15. **NAIC-AI-15**: Technical Explainability (SHAP/LIME)
+
+**RAG & LLM-Specific Controls:**
+11. **RAG-01**: RAG Hallucination Prevention (Grounding & citation mechanisms)
+12. **RAG-02**: Coverage Accuracy Validation (AI-generated policy explanations)
+
+**Fairness & Bias Controls:**
+13. **FAIR-01**: Proxy Discrimination Testing (ZIP code, etc.)
+14. **FAIR-02**: Disparate Impact Analysis
+
+**Explainability Controls:**
+15. **XAI-01**: Technical Explainability (SHAP/LIME)
 
 ## API Documentation
 
@@ -359,6 +367,8 @@ GET    /models/{model_id}/risk-assessments         # List risk assessments
 ```http
 POST   /governance/philosophy?use_llm_to_fill_gaps=true    # Create/update with LLM assistance
 GET    /governance/philosophy?scope={scope}&scope_ref={ref}  # Get philosophies (filtered)
+GET    /governance/philosophy/download?scope={scope}&scope_ref={ref}  # Download as markdown file
+DELETE /governance/philosophy?scope={scope}&scope_ref={ref}  # Delete philosophy entry
 ```
 
 #### Evidence Packs
@@ -446,6 +456,11 @@ When creating or updating governance philosophy, enable "Use AI to complete miss
 - **Business Domain**: P&C Personal, P&C Commercial, Reinsurance, Specialty
 - **Line of Business**: Personal Auto, Homeowners, Workers Comp, etc.
 - **Model**: Model-specific governance
+
+**Management Features**:
+- **Download as Markdown**: Export any philosophy as a formatted markdown file for documentation
+- **Delete**: Remove outdated or incorrect philosophy entries
+- **Version History**: All philosophies are timestamped with creation and update dates
 
 ### Data Lineage Tracking
 
