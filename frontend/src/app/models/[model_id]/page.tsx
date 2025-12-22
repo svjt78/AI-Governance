@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import type { InsuranceAIModel, GovernanceSummary } from '@/lib/types';
+import type { InsuranceAIModel, GovernanceSummary, ControlCatalogEntry } from '@/lib/types';
 import Card from '@/components/common/Card';
 import Badge from '@/components/common/Badge';
 import Button from '@/components/common/Button';
@@ -24,6 +24,7 @@ export default function ModelDetailPage() {
   const [model, setModel] = useState<InsuranceAIModel | null>(null);
   const [summary, setSummary] = useState<GovernanceSummary | null>(null);
   const [riskAssessments, setRiskAssessments] = useState<any[]>([]);
+  const [controls, setControls] = useState<ControlCatalogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -35,20 +36,28 @@ export default function ModelDetailPage() {
 
   const loadData = async () => {
     try {
-      const [modelData, summaryData, riskData] = await Promise.all([
+      const [modelData, summaryData, riskData, controlsData] = await Promise.all([
         api.models.get(model_id),
         api.models.getSummary(model_id),
         api.risk.list(model_id),
+        api.controls.list(),
       ]);
       setModel(modelData);
       setSummary(summaryData);
       setRiskAssessments(riskData);
+      setControls(controlsData);
     } catch (error) {
       console.error('Error loading model:', error);
       setMessage({ type: 'error', text: 'Failed to load model details' });
     } finally {
       setLoading(false);
     }
+  };
+
+  const getControlName = (controlId: string): string => {
+    const control = controls.find(c => c.control_id === controlId);
+    if (!control) return controlId;  // Fallback to ID if control not found
+    return control.regulatory_focus.replace(/_/g, ' ');
   };
 
   const handleGenerateEvidencePack = async () => {
@@ -202,7 +211,7 @@ export default function ModelDetailPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Control ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Control</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rationale</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
@@ -211,7 +220,7 @@ export default function ModelDetailPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {summary.control_evaluations.evaluations.map((evaluation) => (
                   <tr key={evaluation.control_id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm font-medium text-gray-900">{evaluation.control_id}</td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900">{getControlName(evaluation.control_id)}</td>
                     <td className="px-4 py-3 text-sm">
                       {evaluation.status === 'passed' && (
                         <Badge variant="status" value="passed">

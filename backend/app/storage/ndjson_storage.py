@@ -108,3 +108,26 @@ class NDJSONStorage:
         """Count records matching filters"""
         records = NDJSONStorage.filter_records(filepath, **filters)
         return len(records)
+
+    @staticmethod
+    def delete_record(filepath: str, **filters) -> int:
+        """Delete records matching filters and rewrite file. Returns count of deleted records."""
+        NDJSONStorage.ensure_file_exists(filepath)
+
+        # Read all records
+        all_records = NDJSONStorage.read_all(filepath)
+
+        # Filter out records to delete
+        records_to_keep = [
+            r for r in all_records
+            if not all(r.get(k) == v for k, v in filters.items())
+        ]
+
+        deleted_count = len(all_records) - len(records_to_keep)
+
+        # Rewrite file with remaining records
+        with open(filepath, 'w') as f:
+            for record in records_to_keep:
+                f.write(json.dumps(record) + '\n')
+
+        return deleted_count
