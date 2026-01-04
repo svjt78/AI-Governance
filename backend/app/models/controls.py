@@ -28,6 +28,7 @@ class ControlCatalogEntry(BaseModel):
     framework_reference: str  # e.g., NAIC_AI_Principles
     regulatory_focus: str  # e.g., Unfair_Discrimination
     category: ControlCategory
+    accountability: str
     description: str
     mandatory_for_prod: bool = False
     applies_to_use_case_categories: List[str] = Field(default_factory=list)
@@ -50,3 +51,17 @@ class ControlEvaluation(BaseModel):
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }
+
+
+class ControlCatalogUpdate(BaseModel):
+    """Partial update for a governance control"""
+    framework_reference: Optional[str] = None
+    regulatory_focus: Optional[str] = None
+    category: Optional[ControlCategory] = None
+    accountability: Optional[str] = None
+    description: Optional[str] = None
+    mandatory_for_prod: Optional[bool] = None
+    applies_to_use_case_categories: Optional[List[str]] = None
+
+    class Config:
+        use_enum_values = True

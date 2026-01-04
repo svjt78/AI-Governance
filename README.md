@@ -172,6 +172,7 @@ InsureGov-AI/
 │   ├── data/                         # Persistent data files
 │   │   ├── models.json               # Model registry
 │   │   ├── controls.json             # 15 NAIC controls
+│   │   │                             # Includes accountability owner per control
 │   │   ├── control_evaluations.ndjson
 │   │   ├── bias.ndjson
 │   │   ├── drift.ndjson
@@ -200,6 +201,7 @@ InsureGov-AI/
 │   │   │   │   └── [model_id]/page.tsx  # Model detail page
 │   │   │   ├── governance/
 │   │   │   │   └── philosophy/page.tsx  # Philosophy editor
+│   │   │   ├── controls/             # Control catalog management
 │   │   │   ├── evidence-packs/page.tsx  # Evidence pack browser
 │   │   │   ├── audit-log/page.tsx       # Audit log viewer
 │   │   │   └── layout.tsx            # Root layout with sidebar
@@ -345,6 +347,10 @@ GET    /models/{model_id}/governance-summary  # Get comprehensive governance sum
 #### Controls
 ```http
 GET    /controls                                    # Get 15-control catalog
+GET    /controls/{control_id}                       # Get control details
+POST   /controls                                    # Create control (includes accountability)
+PUT    /controls/{control_id}                       # Update control
+DELETE /controls/{control_id}                       # Delete control
 POST   /models/{model_id}/controls/evaluations     # Update control evaluations
 GET    /models/{model_id}/controls/evaluations     # Get model's control evaluations
 ```

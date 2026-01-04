@@ -81,6 +81,26 @@ export const api = {
     list: () =>
       fetchAPI<ControlCatalogEntry[]>('/controls'),
 
+    get: (controlId: string) =>
+      fetchAPI<ControlCatalogEntry>(`/controls/${controlId}`),
+
+    create: (control: Partial<ControlCatalogEntry>) =>
+      fetchAPI<ControlCatalogEntry>('/controls', {
+        method: 'POST',
+        body: JSON.stringify(control),
+      }),
+
+    update: (controlId: string, updates: Partial<ControlCatalogEntry>) =>
+      fetchAPI<ControlCatalogEntry>(`/controls/${controlId}`, {
+        method: 'PUT',
+        body: JSON.stringify(updates),
+      }),
+
+    delete: (controlId: string) =>
+      fetchAPI(`/controls/${controlId}`, {
+        method: 'DELETE',
+      }),
+
     getEvaluations: (modelId: string) =>
       fetchAPI<ControlEvaluation[]>(`/models/${modelId}/controls/evaluations`),
 
