@@ -55,7 +55,7 @@ export default function AuditLogPage() {
               onChange={(e) => setFilters({ ...filters, entity_type: e.target.value })}
             >
               <option value="">All Entities</option>
-              <option value="model">Model</option>
+              <option value="model">Agent</option>
               <option value="lineage">Lineage</option>
               <option value="control_evaluation">Control Evaluation</option>
               <option value="explainability">Explainability</option>
@@ -76,7 +76,7 @@ export default function AuditLogPage() {
               onChange={(e) => setFilters({ ...filters, action_type: e.target.value })}
             >
               <option value="">All Actions</option>
-              <option value="create_model">Create Model</option>
+              <option value="create_model">Create Agent</option>
               <option value="add_lineage">Add Lineage</option>
               <option value="update_control_evaluation">Update Control</option>
               <option value="add_explainability">Add Explainability</option>
@@ -132,7 +132,7 @@ export default function AuditLogPage() {
                     Entity ID
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Model ID
+                    Agent ID
                   </th>
                 </tr>
               </thead>

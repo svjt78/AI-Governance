@@ -48,7 +48,7 @@ export default function ModelDetailPage() {
       setControls(controlsData);
     } catch (error) {
       console.error('Error loading model:', error);
-      setMessage({ type: 'error', text: 'Failed to load model details' });
+      setMessage({ type: 'error', text: 'Failed to load agent details' });
     } finally {
       setLoading(false);
     }
@@ -79,15 +79,15 @@ export default function ModelDetailPage() {
     setActiveTab('overview');
   };
 
-  if (loading) return <Loading message="Loading model details..." />;
-  if (!model || !summary) return <Alert type="error" message="Model not found" />;
+  if (loading) return <Loading message="Loading agent details..." />;
+  if (!model || !summary) return <Alert type="error" message="Agent not found" />;
 
   // Overview Tab Content (all existing display logic)
   const overviewContent = (
     <div>
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card title="Model Information">
+        <Card title="Agent Information">
           <dl className="space-y-2 text-sm">
             <div>
               <dt className="text-gray-500">Type</dt>
@@ -444,7 +444,7 @@ export default function ModelDetailPage() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <Link href="/models" className="text-sm text-primary-600 hover:text-primary-800 mb-2 inline-block">
-              ← Back to Models
+              ← Back to Agents
             </Link>
             <h1 className="text-3xl font-bold text-gray-900">{model.name}</h1>
             <p className="mt-1 text-gray-600">Version {model.version}</p>

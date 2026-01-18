@@ -37,17 +37,17 @@ export default function ModelsPage() {
     }
   };
 
-  if (loading) return <Loading message="Loading models..." />;
+  if (loading) return <Loading message="Loading agents..." />;
 
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">AI Models</h1>
-          <p className="mt-2 text-gray-600">Manage your insurance AI model registry</p>
+          <h1 className="text-3xl font-bold text-gray-900">AI Agents</h1>
+          <p className="mt-2 text-gray-600">Manage your insurance AI agent registry</p>
         </div>
         <Link href="/models/new">
-          <Button>Register New Model</Button>
+          <Button>Register New Agent</Button>
         </Link>
       </div>
 
@@ -120,13 +120,13 @@ export default function ModelsPage() {
         </div>
       </Card>
 
-      {/* Models Table */}
-      <Card title={`Models (${models.length})`}>
+      {/* Agents Table */}
+      <Card title={`Agents (${models.length})`}>
         {models.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500">No models found matching your filters.</p>
+            <p className="text-gray-500">No agents found matching your filters.</p>
             <Link href="/models/new" className="mt-4 inline-block">
-              <Button>Register First Model</Button>
+              <Button>Register First Agent</Button>
             </Link>
           </div>
         ) : (

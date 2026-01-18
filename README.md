@@ -18,31 +18,31 @@ A comprehensive AI governance platform specifically designed for Property & Casu
 
 ## Overview
 
-InsureGov provides a complete governance framework for AI models used in insurance operations including pricing, underwriting, claims processing, fraud detection, and operational copilots. The platform helps insurance companies:
+InsureGov provides a complete governance framework for AI agents used in insurance operations including pricing, underwriting, claims processing, fraud detection, and operational copilots. The platform helps insurance companies:
 
 - Demonstrate compliance with NAIC AI Principles and state DOI requirements
 - Prevent unfair discrimination in automated decision-making
 - Maintain comprehensive audit trails for regulatory examinations
 - Generate audit-ready documentation packages
-- Monitor model performance and detect drift
+- Monitor agent performance and detect drift
 - Assess and mitigate AI-related risks
 
 ## Key Features
 
 ### Core Capabilities
 
-- **AI Model Registry**: Centralized tracking of all AI models across business domains and lines of business
+- **AI Agent Registry**: Centralized tracking of all AI agents across business domains and lines of business
 - **NAIC Compliance Framework**: 15 control framework based on NAIC AI Principles
 - **Bias & Fairness Testing**: Comprehensive unfair discrimination testing and monitoring
 - **Explainability Analysis**: Support for SHAP, LIME, prompt tracing, and agent tracing
 - **Risk Scoring Engine**: Automated, insurance-specific weighted risk assessment
 - **Evidence Pack Generation**: One-click audit-ready documentation for DOI examinations
-- **Governance Philosophy**: Structured governance principles at org/domain/LOB/model levels
+- **Governance Philosophy**: Structured governance principles at org/domain/LOB/agent levels
 - **LLM-Assisted Governance**: GPT-powered philosophy generation with NAIC alignment
 - **Data Lineage Tracking**: Complete data source and pipeline documentation
 - **Comprehensive Audit Log**: Full mutation tracking with before/after values
 
-### Supported Model Types
+### Supported Agent Types
 
 - **Traditional ML**: Classifiers, Regressors, Rules-based systems
 - **Modern AI**: LLMs, RAG systems, Autonomous agents
@@ -116,7 +116,7 @@ InsureGov provides a complete governance framework for AI models used in insuran
    docker exec -it insuregov-backend python scripts/seed_data.py
    ```
 
-   This creates 5 realistic insurance models with complete governance data.
+   This creates 5 realistic insurance agents with complete governance data.
 
 5. **Access the application**:
    - **Frontend UI**: http://localhost:3006
@@ -141,7 +141,7 @@ InsureGov-AI/
 ├── backend/                          # FastAPI backend application
 │   ├── app/
 │   │   ├── models/                   # Pydantic data models (11 files)
-│   │   │   ├── insurance_model.py    # Core model entity
+│   │   │   ├── insurance_model.py    # Core agent entity (stored as model)
 │   │   │   ├── controls.py           # Control framework
 │   │   │   ├── bias.py               # Bias evaluation model
 │   │   │   ├── drift.py              # Drift monitoring model
@@ -153,7 +153,7 @@ InsureGov-AI/
 │   │   │   ├── evidence_pack.py      # Evidence pack metadata
 │   │   │   └── audit_log.py          # Audit log entry
 │   │   ├── routes/                   # API endpoints (6 files)
-│   │   │   ├── models.py             # Model registry endpoints
+│   │   │   ├── models.py             # Agent registry endpoints (API /models)
 │   │   │   ├── controls.py           # Control evaluation endpoints
 │   │   │   ├── evaluations.py        # All evaluation endpoints
 │   │   │   ├── philosophy.py         # Governance philosophy endpoints
@@ -170,7 +170,7 @@ InsureGov-AI/
 │   │   ├── config.py                 # Application configuration
 │   │   └── main.py                   # FastAPI application entry
 │   ├── data/                         # Persistent data files
-│   │   ├── models.json               # Model registry
+│   │   ├── models.json               # Agent registry (stored as models)
 │   │   ├── controls.json             # 15 NAIC controls
 │   │   │                             # Includes accountability owner per control
 │   │   ├── control_evaluations.ndjson
@@ -196,9 +196,9 @@ InsureGov-AI/
 │   │   ├── app/                      # Next.js pages (App Router)
 │   │   │   ├── page.tsx              # Dashboard homepage
 │   │   │   ├── models/
-│   │   │   │   ├── page.tsx          # Model registry list
-│   │   │   │   ├── new/page.tsx      # Model registration form
-│   │   │   │   └── [model_id]/page.tsx  # Model detail page
+│   │   │   │   ├── page.tsx          # Agent registry list
+│   │   │   │   ├── new/page.tsx      # Agent registration form
+│   │   │   │   └── [model_id]/page.tsx  # Agent detail page (URL stays /models)
 │   │   │   ├── governance/
 │   │   │   │   └── philosophy/page.tsx  # Philosophy editor
 │   │   │   ├── controls/             # Control catalog management
@@ -240,11 +240,11 @@ InsureGov-AI/
 
 ## Sample Data
 
-The seed data script (`scripts/seed_data.py`) generates realistic insurance AI models with complete governance data.
+The seed data script (`scripts/seed_data.py`) generates realistic insurance AI agents with complete governance data.
 
-### 5 Insurance AI Models
+### 5 Insurance AI Agents
 
-#### 1. Personal Auto Pricing Model
+#### 1. Personal Auto Pricing Agent
 - **Type**: Regressor (Traditional ML)
 - **Status**: Production (Approved)
 - **Risk Level**: Medium (35.5/100)
@@ -284,7 +284,7 @@ The seed data script (`scripts/seed_data.py`) generates realistic insurance AI m
 - **External Data**: Fleet telematics, FMCSA data, DOT compliance
 - **Features**: Agent trace explainability; in development phase
 
-#### 5. Small Commercial Property Pricing Model
+#### 5. Small Commercial Property Pricing Agent
 - **Type**: Regressor (Traditional ML)
 - **Status**: **SUSPENDED** (Temporarily Suspended)
 - **Risk Level**: **CRITICAL** (88.95/100)
@@ -334,11 +334,11 @@ http://localhost:8006/api/v1
 
 ### Key Endpoints
 
-#### Model Registry
+#### Agent Registry (API: /models)
 ```http
-POST   /models                          # Register new AI model
-GET    /models                          # List models (with filters)
-GET    /models/{model_id}               # Get model details
+POST   /models                          # Register new AI agent
+GET    /models                          # List agents (with filters)
+GET    /models/{model_id}               # Get agent details
 POST   /models/{model_id}/lineage       # Add data lineage snapshot
 GET    /models/{model_id}/lineage       # Get lineage history
 GET    /models/{model_id}/governance-summary  # Get comprehensive governance summary
@@ -352,7 +352,7 @@ POST   /controls                                    # Create control (includes a
 PUT    /controls/{control_id}                       # Update control
 DELETE /controls/{control_id}                       # Delete control
 POST   /models/{model_id}/controls/evaluations     # Update control evaluations
-GET    /models/{model_id}/controls/evaluations     # Get model's control evaluations
+GET    /models/{model_id}/controls/evaluations     # Get agent's control evaluations
 ```
 
 #### Evaluations
@@ -386,7 +386,7 @@ GET    /evidence-packs/{pack_id}/download           # Download ZIP archive
 
 #### Audit Log
 ```http
-GET    /audit-log?model_id={id}&entity_type={type}&action_type={action}&limit={n}  # Get audit log
+GET    /audit-log?model_id={id}&entity_type={type}&action_type={action}&limit={n}  # Get audit log (agent id = model_id)
 ```
 
 ## Features in Detail
@@ -424,16 +424,16 @@ Total Risk =
 
 Generates audit-ready documentation packages containing 10 separate markdown files:
 
-1. **model.md** - Model metadata, business context, deployment details
+1. **model.md** - Agent metadata, business context, deployment details
 2. **lineage.md** - Complete data lineage and training pipeline history
 3. **controls.md** - Control catalog and evaluation results (15 controls)
 4. **explainability.md** - Explainability assessments (SHAP, LIME, traces)
 5. **bias.md** - Unfair discrimination testing results
-6. **drift.md** - Model drift monitoring history
+6. **drift.md** - Agent drift monitoring history
 7. **rag.md** - RAG evaluation metrics (if applicable)
 8. **risk.md** - Risk assessment history and scores
 9. **philosophy.md** - Applicable governance philosophies
-10. **audit_summary.md** - Audit log for the model
+10. **audit_summary.md** - Audit log for the agent
 
 All files are packaged as a ZIP archive with timestamp for regulatory submission.
 
@@ -461,7 +461,7 @@ When creating or updating governance philosophy, enable "Use AI to complete miss
 - **Organization**: Enterprise-wide principles
 - **Business Domain**: P&C Personal, P&C Commercial, Reinsurance, Specialty
 - **Line of Business**: Personal Auto, Homeowners, Workers Comp, etc.
-- **Model**: Model-specific governance
+- **Agent**: Agent-specific governance (scope value `model`)
 
 **Management Features**:
 - **Download as Markdown**: Export any philosophy as a formatted markdown file for documentation
@@ -474,7 +474,7 @@ Comprehensive lineage tracking includes:
 
 - **Data Sources**: All datasets used (internal, external, third-party)
 - **Pipeline Snapshots**: Training pipeline configurations and versions
-- **Training Metadata**: Dates, model versions, performance metrics
+- **Training Metadata**: Dates, agent versions, performance metrics
 - **External Data Vendors**: Credit bureaus, catastrophe modelers, etc.
 - **Change History**: Complete audit trail of lineage changes
 
@@ -483,13 +483,13 @@ Comprehensive lineage tracking includes:
 Every mutation is logged with:
 - User ID performing the action
 - Action type (create, update, evaluate, generate, etc.)
-- Entity type (model, control, evaluation, etc.)
-- Entity ID (model_id, control_id, etc.)
+- Entity type (agent/model, control, evaluation, etc.)
+- Entity ID (agent id / model_id, control_id, etc.)
 - Old value (before change)
 - New value (after change)
 - Timestamp (ISO 8601 format)
 
-Supports filtering by model, entity type, action type, and date range.
+Supports filtering by agent, entity type, action type, and date range.
 
 ## Development
 
@@ -693,9 +693,9 @@ InsureGov is purpose-built for insurance industry AI governance:
 ## Performance Considerations
 
 - **Backend Response Time**: <100ms for most API calls
-- **Evidence Pack Generation**: 2-5 seconds depending on model complexity
+- **Evidence Pack Generation**: 2-5 seconds depending on agent complexity
 - **LLM Philosophy Generation**: 3-10 seconds per section
-- **Data File Size**: ~1-10MB for typical models
+- **Data File Size**: ~1-10MB for typical agents
 - **Concurrent Users**: Supports 10-50 concurrent users (single instance)
 
 ## Security Considerations
@@ -713,7 +713,7 @@ Potential areas for expansion:
 - Authentication and user management
 - Role-based access control (RBAC)
 - Advanced analytics and dashboards
-- Integration with model serving platforms
+- Integration with agent serving platforms
 - Automated bias testing workflows
 - Real-time drift monitoring alerts
 - Multi-tenant support

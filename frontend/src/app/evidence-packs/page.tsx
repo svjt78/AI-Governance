@@ -42,7 +42,7 @@ export default function EvidencePacksPage() {
           <div className="text-center py-12">
             <p className="text-gray-500">No evidence packs generated yet.</p>
             <p className="mt-2 text-sm text-gray-400">
-              Generate evidence packs from the model detail pages.
+              Generate evidence packs from the agent detail pages.
             </p>
           </div>
         ) : (
@@ -54,7 +54,7 @@ export default function EvidencePacksPage() {
                     Evidence Pack ID
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Model ID
+                    Agent ID
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Jurisdictions
@@ -111,7 +111,7 @@ export default function EvidencePacksPage() {
             including:
           </p>
           <ul className="list-disc list-inside space-y-1 ml-4">
-            <li>Model details and insurance context</li>
+            <li>Agent details and insurance context</li>
             <li>Data lineage and training pipeline</li>
             <li>Control catalog and evaluations</li>
             <li>Explainability evaluations</li>

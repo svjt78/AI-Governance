@@ -42,7 +42,7 @@ export default function NewModelPage() {
       const newModel = await api.models.create(formData);
       router.push(`/models/${newModel.model_id}`);
     } catch (err: any) {
-      setError(err.message || 'Failed to create model');
+      setError(err.message || 'Failed to create agent');
       setSaving(false);
     }
   };
@@ -85,11 +85,11 @@ export default function NewModelPage() {
     <div>
       <div className="mb-8">
         <Link href="/models" className="text-sm text-primary-600 hover:text-primary-800 mb-2 inline-block">
-          ← Back to Models
+          ← Back to Agents
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900">Register New AI Model</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Register New AI Agent</h1>
         <p className="mt-2 text-gray-600">
-          Add a new insurance AI model to your governance registry
+          Add a new insurance AI agent to your governance registry
         </p>
       </div>
 
@@ -105,14 +105,14 @@ export default function NewModelPage() {
           <Card title="Basic Information">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="label">Model Name *</label>
+                <label className="label">Agent Name *</label>
                 <input
                   type="text"
                   className="input"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g., Personal Auto Pricing Model"
+                  placeholder="e.g., Personal Auto Pricing Agent"
                 />
               </div>
 
@@ -349,7 +349,7 @@ export default function NewModelPage() {
             <Button type="button" variant="secondary">Cancel</Button>
           </Link>
           <Button type="submit" disabled={saving}>
-            {saving ? 'Creating...' : 'Register Model'}
+            {saving ? 'Creating...' : 'Register Agent'}
           </Button>
         </div>
       </form>

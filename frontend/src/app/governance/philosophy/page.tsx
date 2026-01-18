@@ -248,7 +248,7 @@ export default function PhilosophyPage() {
                   <option value="org">Organization</option>
                   <option value="business_domain">Business Domain</option>
                   <option value="line_of_business">Line of Business</option>
-                  <option value="model">Model</option>
+                  <option value="model">Agent</option>
                 </select>
               </div>
 

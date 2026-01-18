@@ -77,7 +77,7 @@ export default function Dashboard() {
           </p>
         </div>
         <Link href="/models/new">
-          <Button>Register New Model</Button>
+          <Button>Register New Agent</Button>
         </Link>
       </div>
 
@@ -85,14 +85,14 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
         <Card>
           <div>
-            <p className="text-sm font-medium text-gray-500">Total Models</p>
+            <p className="text-sm font-medium text-gray-500">Total Agents</p>
             <p className="mt-2 text-3xl font-semibold text-gray-900">{totalModels}</p>
           </div>
         </Card>
 
         <Card>
           <div>
-            <p className="text-sm font-medium text-gray-500">Prod Models</p>
+            <p className="text-sm font-medium text-gray-500">Prod Agents</p>
             <p className="mt-2 text-3xl font-semibold text-gray-900">{prodModels}</p>
           </div>
         </Card>
@@ -112,16 +112,16 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Models at Risk */}
-      <Card title="Models Requiring Attention" className="mb-8">
+      {/* Agents at Risk */}
+      <Card title="Agents Requiring Attention" className="mb-8">
         {modelsAtRisk.length === 0 ? (
-          <p className="text-sm text-gray-500">No models requiring immediate attention</p>
+          <p className="text-sm text-gray-500">No agents requiring immediate attention</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Model</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Agent</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">LoB</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Use Case</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Risk Level</th>
@@ -173,7 +173,7 @@ export default function Dashboard() {
         <Card title="Quick Actions">
           <div className="space-y-3">
             <Link href="/models" className="block">
-              <Button variant="secondary" className="w-full">View All Models</Button>
+              <Button variant="secondary" className="w-full">View All Agents</Button>
             </Link>
             <Link href="/governance/philosophy" className="block">
               <Button variant="secondary" className="w-full">Edit Governance Philosophy</Button>
@@ -191,7 +191,7 @@ export default function Dashboard() {
               <span className="font-medium">15</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Models in Production:</span>
+              <span className="text-gray-600">Agents in Production:</span>
               <span className="font-medium">{prodModels}</span>
             </div>
             <div className="flex justify-between">
